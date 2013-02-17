@@ -31,7 +31,7 @@ Digest::SipHash - Perl XS interface to the SipHash algorithm
 
 =head1 VERSION
 
-$Id$
+$Id: SipHash.pm,v 0.1 2013/02/17 07:53:54 dankogai Exp dankogai $
 
 =head1 SYNOPSIS
 
