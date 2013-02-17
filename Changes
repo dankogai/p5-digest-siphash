@@ -2,10 +2,15 @@
 #  Revision history for Digest::SipHash
 #
 #
-$Id: Changes,v 0.7 2013/02/17 14:48:20 dankogai Exp dankogai $
+$Revision: 0.8 $ $Date: 2013/02/17 15:07:36 $
+! lib/Digest/SipHash.pm t/01-SipHash.t
+  + Added siphash32 to @EXPORT_OK
+  + Added :all to @EXPORT_TAG
+
+0.07 2013/02/17 14:48:20
 ! SipHash.xs lib/Digest/SipHash.pm
-  * added siphash32(), just an alias of siphash().
-  * s/key/seed/g
+  + added siphash32(), just an alias of siphash().
+  ! s/key/seed/g
     # so less confusing from perl's point of view
 
 0.06 2013/02/17 14:03:18

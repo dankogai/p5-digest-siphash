@@ -4,12 +4,12 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.7 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.8 $ =~ /(\d+)/g;
 require XSLoader;
 XSLoader::load( 'Digest::SipHash', $VERSION );
 
 use base 'Exporter';
-our @EXPORT_OK = qw/siphash/;
+our @EXPORT_OK = qw/siphash siphash32/;
 
 use Config;
 use constant {
@@ -17,6 +17,7 @@ use constant {
     USE64BITINT => $Config{use64bitint},
 };
 push @EXPORT_OK, 'siphash64' if USE64BITINT;
+our %EXPORT_TAGS = ( all => [@EXPORT_OK] );
 our $DEFAULT_SEED = pack 'C16', map { int( rand(256) ) } ( 0 .. 0xF );
 
 sub siphash {
@@ -54,7 +55,7 @@ Digest::SipHash - Perl XS interface to the SipHash algorithm
 
 =head1 VERSION
 
-$Id: SipHash.pm,v 0.7 2013/02/17 14:48:20 dankogai Exp dankogai $
+$Id: SipHash.pm,v 0.8 2013/02/17 15:06:02 dankogai Exp dankogai $
 
 =head1 SYNOPSIS
 
@@ -86,7 +87,9 @@ given string.
 
 =head1 EXPORT
 
-C<siphash()> and C<siphash64()> by option.
+C<siphash()>, C<siphash32()> and C<siphash64()> on demand.
+
+C<:all> to all of above
 
 =head1 SUBROUTINES/METHODS
 
