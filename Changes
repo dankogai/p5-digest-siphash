@@ -1,14 +1,17 @@
 #
 #  Revision history for Digest::SipHash
 #
-# $Id: Changes,v 0.4 2013/02/17 13:23:00 dankogai Exp dankogai $
+#
+$Id: Changes,v 0.5 2013/02/17 13:34:32 dankogai Exp dankogai $
+! lib/Digest/SipHash.pm
+  POD fixes.  Functionally identical to the previous version
+
+0.04 2013/02/17 13:23:00
 ! SipHash.xs lib/Digest/SipHash.pm t/01-SipHash.t
   ! siphash() now always returns lower 32-bit first so
-
-  Hash::Util::hash_value()
+  Hash::Util::hash_value($str)
     == Digest::SipHash::siphash($str, Hash::Util::hash_seed());
-
-  is always true.
+  always holds true.
   + siphash64() added for 64-bit platforms
 
 0.03 2013/02/17 10:30:45

@@ -4,7 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.4 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.5 $ =~ /(\d+)/g;
 require XSLoader;
 XSLoader::load( 'Digest::SipHash', $VERSION );
 
@@ -47,7 +47,7 @@ Digest::SipHash - Perl XS interface to the SipHash algorithm
 
 =head1 VERSION
 
-$Id: SipHash.pm,v 0.4 2013/02/17 13:23:00 dankogai Exp dankogai $
+$Id: SipHash.pm,v 0.5 2013/02/17 13:34:32 dankogai Exp dankogai $
 
 =head1 SYNOPSIS
 
@@ -88,10 +88,10 @@ C<siphash()> and C<siphash64()> by option.
 
 Calculates the SipHash value of C<$src> with $<$key>.
 
-If C<$key> is omitted, it defaults to C<$Digest:::SipHash::DEFAULT_KEY>
+If C<$key> is omitted, it defaults to C<$Digest:::SipHash::DEFAULT_KEY>,
 which is set randomly upon initialization of this module.
 
-If C<$key> is set but less than 16 bytes long, it is padded with $DEFAULT_KEY.
+If C<$key> is set but less than 16 bytes long, it is padded with C<$DEFAULT_KEY>.
 
 To be compatible with 32-bit perl, It returns a pair of 32-bit
 integers instead of a 64-bit integer.  Since C<Hash::Util::hash_value()>
@@ -107,7 +107,7 @@ always holds when PERL_HASH_FUN_SIPHASH is in effect.
 
   my $uint64 = siphash65($str [, $key]);
 
-Calculates the SipHash value of C<$src> with $<$key> in 64-bit.
+Calculates the SipHash value of C<$src> with C<$key> in 64-bit.
 Available on 64-bit platforms only.
 
 =over 2
@@ -115,6 +115,12 @@ Available on 64-bit platforms only.
 =item xs_siphash
 
 Which actually does the job.  Should not use it directly.
+
+=back
+
+=head1 TODO
+
+=over 2
 
 =item pp_siphash
 
