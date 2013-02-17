@@ -1,8 +1,15 @@
 #
 #  Revision history for Digest-SipHash
 #
-# $Id: Changes,v 0.1 2013/02/17 07:53:54 dankogai Exp dankogai $
+# $Id: Changes,v 0.2 2013/02/17 08:30:18 dankogai Exp dankogai $
 
-$Revision: 0.1 $ $Date: 2013/02/17 07:53:54 $
+$Revision: 0.2 $ $Date: 2013/02/17 08:30:18 $
+! t/01-SipHash.t
+  Checks the bug below.
+! lib/Digest/SipHash.pm
+  # forgot the following. oops.
+  use base 'Exporter'; 
+
+0.01 2013/02/17 07:53:54
 + *
   First Release

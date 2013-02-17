@@ -4,8 +4,8 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.1 $ =~ /(\d+)/g;
-require Exporter;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.2 $ =~ /(\d+)/g;
+use base 'Exporter';
 our @EXPORT_OK = qw/siphash/;
 
 require XSLoader;
@@ -31,7 +31,7 @@ Digest::SipHash - Perl XS interface to the SipHash algorithm
 
 =head1 VERSION
 
-$Id: SipHash.pm,v 0.1 2013/02/17 07:53:54 dankogai Exp dankogai $
+$Id: SipHash.pm,v 0.2 2013/02/17 08:30:18 dankogai Exp dankogai $
 
 =head1 SYNOPSIS
 
