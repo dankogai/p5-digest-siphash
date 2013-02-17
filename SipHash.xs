@@ -1,5 +1,5 @@
 /*
- * $Id: SipHash.xs,v 0.2 2013/02/17 10:30:45 dankogai Exp $
+ * $Id: SipHash.xs,v 0.3 2013/02/17 14:48:20 dankogai Exp dankogai $
  */
 #include "EXTERN.h"
 #include "perl.h"
@@ -8,9 +8,9 @@
 #include "csiphash.c"
 
 static SV *
-siphash_as_sv(SV *src, SV *key) {
+siphash_as_sv(SV *src, SV *seed) {
     uint64_t hash = le64toh(
-        siphash24(SvPV_nolen(src), SvCUR(src), SvPV_nolen(key))
+        siphash24(SvPV_nolen(src), SvCUR(src), SvPV_nolen(seed))
     );
     return newSVpv((const char *)&hash, sizeof(uint64_t));
 }
@@ -18,10 +18,10 @@ siphash_as_sv(SV *src, SV *key) {
 MODULE = Digest::SipHash  PACKAGE = Digest::SipHash
 
 SV *
-xs_siphash(src, key)
+xs_siphash(src, seed)
 SV *src;
-SV *key;
+SV *seed;
 CODE:
-    RETVAL = siphash_as_sv(src, key);
+    RETVAL = siphash_as_sv(src, seed);
 OUTPUT:
     RETVAL

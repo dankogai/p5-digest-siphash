@@ -2,7 +2,13 @@
 #  Revision history for Digest::SipHash
 #
 #
-$Id: Changes,v 0.6 2013/02/17 14:03:18 dankogai Exp dankogai $
+$Id: Changes,v 0.7 2013/02/17 14:48:20 dankogai Exp dankogai $
+! SipHash.xs lib/Digest/SipHash.pm
+  * added siphash32(), just an alias of siphash().
+  * s/key/seed/g
+    # so less confusing from perl's point of view
+
+0.06 2013/02/17 14:03:18
 ! lib/Digest/SipHash.pm t/01-SipHash.t
   Fixed: siphash() in scalar context
 
