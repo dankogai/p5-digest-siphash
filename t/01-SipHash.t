@@ -5,10 +5,11 @@ use warnings FATAL => 'all';
 use Test::More;
 use Config;
 use Digest::SipHash qw/siphash siphash64/;
-plan tests => 2;
+plan tests => 3;
 
 my $key = pack 'C16', 0..0xf;
 my $str = "hello, world!";
+is siphash($str, $key), 0x10cf32e0, '32-bit scalar';
 my ($lo, $hi) = siphash($str, $key); # 0x7da9cd17, 0x10cf32e0
 ok $lo == 0x10cf32e0 && $hi == 0x7da9cd17, '32-bit pair';
 SKIP:{

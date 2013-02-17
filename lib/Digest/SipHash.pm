@@ -4,7 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.5 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.6 $ =~ /(\d+)/g;
 require XSLoader;
 XSLoader::load( 'Digest::SipHash', $VERSION );
 
@@ -26,7 +26,12 @@ sub siphash {
     $key .= substr( $DEFAULT_KEY, length($key) ) if length($key) < 16;
     my $packed = xs_siphash( $str, $key );
     my @u32 = unpack "L2", $packed;
-    return BIG_ENDIAN ? reverse @u32 : @u32;
+    if (wantarray) {
+        return BIG_ENDIAN ? reverse @u32 : @u32;
+    }
+    else {
+        return BIG_ENDIAN ? pop @u32 : shift @u32;
+    }
 }
 
 if (USE64BITINT) {
@@ -47,7 +52,7 @@ Digest::SipHash - Perl XS interface to the SipHash algorithm
 
 =head1 VERSION
 
-$Id: SipHash.pm,v 0.5 2013/02/17 13:34:32 dankogai Exp dankogai $
+$Id: SipHash.pm,v 0.6 2013/02/17 14:03:18 dankogai Exp dankogai $
 
 =head1 SYNOPSIS
 
@@ -55,7 +60,9 @@ $Id: SipHash.pm,v 0.5 2013/02/17 13:34:32 dankogai Exp dankogai $
   my $key = pack 'C16', 0 .. 0xF;    # 16 chars long
   my $str = "hello world!";
   my ( $lo, $hi ) = siphash( $str, $key );
-  # $hi == 0x7da9cd17 && $lo = 0x10cf32e0
+  #  $lo = 0x10cf32e0, $hi == 0x7da9cd17
+  my $u32 = siphash( $str, $key )
+  #  $u32 = 0x10cf32e0
 
   use Config;
   if ( $Config{use64bitint} ) {
@@ -95,13 +102,13 @@ If C<$key> is set but less than 16 bytes long, it is padded with C<$DEFAULT_KEY>
 
 To be compatible with 32-bit perl, It returns a pair of 32-bit
 integers instead of a 64-bit integer.  Since C<Hash::Util::hash_value()>
-always returns the lower 32-bit, the lower half is returned first so that
+always returns the lower 32-bit first so that:
 
   use Hash::Util qw/hash_seed hash_value/;
   use Digest::SipHash qw/siphash/;
   hash_value($str) == siphash($str, hash_seed()); # scalar context
 
-always holds when PERL_HASH_FUN_SIPHASH is in effect.
+always holds true when PERL_HASH_FUN_SIPHASH is in effect.
 
 =head2 siphash64
 

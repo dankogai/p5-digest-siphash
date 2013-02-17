@@ -2,7 +2,11 @@
 #  Revision history for Digest::SipHash
 #
 #
-$Id: Changes,v 0.5 2013/02/17 13:34:32 dankogai Exp dankogai $
+$Id: Changes,v 0.6 2013/02/17 14:03:18 dankogai Exp dankogai $
+! lib/Digest/SipHash.pm t/01-SipHash.t
+  Fixed: siphash() in scalar context
+
+0.05 2013/02/17 13:34:32
 ! lib/Digest/SipHash.pm
   POD fixes.  Functionally identical to the previous version
 
