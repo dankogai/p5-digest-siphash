@@ -1,8 +1,17 @@
 #
 #  Revision history for Digest::SipHash
 #
-# $Id: Changes,v 0.3 2013/02/17 10:30:45 dankogai Exp dankogai $
-$Revision: 0.3 $ $Date: 2013/02/17 10:30:45 $
+# $Id: Changes,v 0.4 2013/02/17 13:23:00 dankogai Exp dankogai $
+! SipHash.xs lib/Digest/SipHash.pm t/01-SipHash.t
+  ! siphash() now always returns lower 32-bit first so
+
+  Hash::Util::hash_value()
+    == Digest::SipHash::siphash($str, Hash::Util::hash_seed());
+
+  is always true.
+  + siphash64() added for 64-bit platforms
+
+0.03 2013/02/17 10:30:45
 ! SipHash.xs lib/Digest/SipHash.pm t/01-SipHash.t
   Supports 64-bit int if perl supports that.
 

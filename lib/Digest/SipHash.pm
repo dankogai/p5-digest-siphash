@@ -4,30 +4,39 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.3 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.4 $ =~ /(\d+)/g;
+require XSLoader;
+XSLoader::load( 'Digest::SipHash', $VERSION );
+
 use base 'Exporter';
 our @EXPORT_OK = qw/siphash/;
 
-require XSLoader;
-XSLoader::load( 'Digest::SipHash', $VERSION );
 use Config;
 use constant {
     BIG_ENDIAN  => ( pack( "L", 1 ) eq pack( "N", 1 ) ),
     USE64BITINT => $Config{use64bitint},
 };
+push @EXPORT_OK, 'siphash64' if USE64BITINT;
 our $DEFAULT_KEY = pack 'C16', map { int( rand(256) ) } ( 0 .. 0xF );
 
 sub siphash {
     my $str = shift;
     my $key = shift || $DEFAULT_KEY;
     use bytes;
-    if (length($key) < 16) {
-        $key .= substr($DEFAULT_KEY, length($key));
-    }
-    my $packed = xs_siphash($str, $key);
-    return unpack 'Q', $packed if USE64BITINT && !wantarray;
+    $key .= substr( $DEFAULT_KEY, length($key) ) if length($key) < 16;
+    my $packed = xs_siphash( $str, $key );
     my @u32 = unpack "L2", $packed;
-    return BIG_ENDIAN ? @u32 : reverse @u32;
+    return BIG_ENDIAN ? reverse @u32 : @u32;
+}
+
+if (USE64BITINT) {
+    *siphash64 = sub {
+        my $str = shift;
+        my $key = shift || $DEFAULT_KEY;
+        use bytes;
+        $key .= substr( $DEFAULT_KEY, length($key) ) if length($key) < 16;
+        return unpack 'Q', xs_siphash( $str, $key );
+    };
 }
 
 1;
@@ -38,43 +47,44 @@ Digest::SipHash - Perl XS interface to the SipHash algorithm
 
 =head1 VERSION
 
-$Id: SipHash.pm,v 0.3 2013/02/17 10:30:45 dankogai Exp dankogai $
+$Id: SipHash.pm,v 0.4 2013/02/17 13:23:00 dankogai Exp dankogai $
 
 =head1 SYNOPSIS
 
   use Digest::SipHash qw/siphash/;
   my $key = pack 'C16', 0 .. 0xF;    # 16 chars long
   my $str = "hello world!";
-  my ( $hi, $lo ) = siphash( $str, $key );
+  my ( $lo, $hi ) = siphash( $str, $key );
   # $hi == 0x7da9cd17 && $lo = 0x10cf32e0
 
   use Config;
   if ( $Config{use64bitint} ) {
-    my $whole = siphash( $str, $key );    # scalar context;
-                                          # $whole == 0x7da9cd1710cf32e0
+    use Digest::SipHash qw/siphash64/;
+    my $uint64 = siphash64( $str, $key );    # scalar context;
+    # $uint64 == 0x7da9cd1710cf32e0
   }
 
 =head1 DESCRIPTION
 
-SipHash is the default perl hash function for 64 bit builds and
-ONE_AT_A_TIME on 32 bit now.
-
-L<https://131002.net/siphash/>
+SipHash is the default perl hash function for 64 bit builds now.
 
 L<http://perl5.git.perl.org/perl.git/commit/3db6cbfca39da94d152d3e860e2aa79b9c6bb161>
+
+L<https://131002.net/siphash/>
 
 This module does only one thing - culculates the SipHash value of the
 given string.
 
 =head1 EXPORT
 
-siphash() by option.
+C<siphash()> and C<siphash64()> by option.
 
 =head1 SUBROUTINES/METHODS
 
 =head2 siphash
 
   my ($hi, $lo) = siphash($str [, $key]);
+  my $uint32    = siphash($str [, $key]);
 
 Calculates the SipHash value of C<$src> with $<$key>.
 
@@ -84,10 +94,21 @@ which is set randomly upon initialization of this module.
 If C<$key> is set but less than 16 bytes long, it is padded with $DEFAULT_KEY.
 
 To be compatible with 32-bit perl, It returns a pair of 32-bit
-integers instead of a 64-bit integer.  If your perl sports 64-bit
-integer, you can get the whole value by calling it in scalar context;
+integers instead of a 64-bit integer.  Since C<Hash::Util::hash_value()>
+always returns the lower 32-bit, the lower half is returned first so that
 
-  $whole = siphash($str [, $key]);
+  use Hash::Util qw/hash_seed hash_value/;
+  use Digest::SipHash qw/siphash/;
+  hash_value($str) == siphash($str, hash_seed()); # scalar context
+
+always holds when PERL_HASH_FUN_SIPHASH is in effect.
+
+=head2 siphash64
+
+  my $uint64 = siphash65($str [, $key]);
+
+Calculates the SipHash value of C<$src> with $<$key> in 64-bit.
+Available on 64-bit platforms only.
 
 =over 2
 
@@ -139,7 +160,9 @@ L<http://search.cpan.org/dist/Digest-SipHash/>
 
 =back
 
-=head1 ACKNOWLEDGEMENTS
+=head1 SEE ALSO
+
+L<Hash::Util>, L<https://131002.net/siphash/>
 
 =head1 LICENSE AND COPYRIGHT
 
