@@ -1,9 +1,12 @@
 #
-#  Revision history for Digest-SipHash
+#  Revision history for Digest::SipHash
 #
-# $Id: Changes,v 0.2 2013/02/17 08:30:18 dankogai Exp dankogai $
+# $Id: Changes,v 0.3 2013/02/17 10:30:45 dankogai Exp dankogai $
+$Revision: 0.3 $ $Date: 2013/02/17 10:30:45 $
+! SipHash.xs lib/Digest/SipHash.pm t/01-SipHash.t
+  Supports 64-bit int if perl supports that.
 
-$Revision: 0.2 $ $Date: 2013/02/17 08:30:18 $
+0.02 2013/02/17 08:30:18
 ! t/01-SipHash.t
   Checks the bug below.
 ! lib/Digest/SipHash.pm

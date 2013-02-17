@@ -4,14 +4,18 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.2 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.3 $ =~ /(\d+)/g;
 use base 'Exporter';
 our @EXPORT_OK = qw/siphash/;
 
 require XSLoader;
-XSLoader::load('Digest::SipHash', $VERSION);
-
-our $DEFAULT_KEY = pack 'C16', map { int(rand(256)) } (0..0xF);
+XSLoader::load( 'Digest::SipHash', $VERSION );
+use Config;
+use constant {
+    BIG_ENDIAN  => ( pack( "L", 1 ) eq pack( "N", 1 ) ),
+    USE64BITINT => $Config{use64bitint},
+};
+our $DEFAULT_KEY = pack 'C16', map { int( rand(256) ) } ( 0 .. 0xF );
 
 sub siphash {
     my $str = shift;
@@ -20,7 +24,10 @@ sub siphash {
     if (length($key) < 16) {
         $key .= substr($DEFAULT_KEY, length($key));
     }
-    @{ xs_siphash($str, $key) };
+    my $packed = xs_siphash($str, $key);
+    return unpack 'Q', $packed if USE64BITINT && !wantarray;
+    my @u32 = unpack "L2", $packed;
+    return BIG_ENDIAN ? @u32 : reverse @u32;
 }
 
 1;
@@ -31,15 +38,21 @@ Digest::SipHash - Perl XS interface to the SipHash algorithm
 
 =head1 VERSION
 
-$Id: SipHash.pm,v 0.2 2013/02/17 08:30:18 dankogai Exp dankogai $
+$Id: SipHash.pm,v 0.3 2013/02/17 10:30:45 dankogai Exp dankogai $
 
 =head1 SYNOPSIS
 
   use Digest::SipHash qw/siphash/;
-  my $key = pack 'C16', 0..0xF; # 16 chars long
+  my $key = pack 'C16', 0 .. 0xF;    # 16 chars long
   my $str = "hello world!";
-  my ($hi, $lo) = siphash($str, $key);
-  # $hi == 2209449934 && $lo ==  1373975341;
+  my ( $hi, $lo ) = siphash( $str, $key );
+  # $hi == 0x7da9cd17 && $lo = 0x10cf32e0
+
+  use Config;
+  if ( $Config{use64bitint} ) {
+    my $whole = siphash( $str, $key );    # scalar context;
+                                          # $whole == 0x7da9cd1710cf32e0
+  }
 
 =head1 DESCRIPTION
 
@@ -70,15 +83,17 @@ which is set randomly upon initialization of this module.
 
 If C<$key> is set but less than 16 bytes long, it is padded with $DEFAULT_KEY.
 
-To be compatible with 32-bit perl, It returns two 32-bit integers instead of a 64-bit integer.  To restore the original 64-bit value, do
+To be compatible with 32-bit perl, It returns a pair of 32-bit
+integers instead of a 64-bit integer.  If your perl sports 64-bit
+integer, you can get the whole value by calling it in scalar context;
 
-  $whole = ($hi << 32) + $lo
+  $whole = siphash($str [, $key]);
 
 =over 2
 
 =item xs_siphash
 
-which actually does the job.
+Which actually does the job.  Should not use it directly.
 
 =item pp_siphash
 
