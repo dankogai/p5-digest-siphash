@@ -75,9 +75,9 @@ sub _digest {
 
 sub siphash {
     my $u64 = _digest(@_);
-    my $lo  = $u64->copy->band(0xffff_ffff)->numify();
+    my $lo  = 0 + $u64->copy->band(0xffff_ffff);
     return $lo unless wantarray;
-    my $hi  = $u64->brsft(32)->numify();
+    my $hi  = 0 + $u64->brsft(32);
     return ( $lo, $hi );
 }
 
@@ -86,7 +86,7 @@ sub siphash {
 if (USE64BITINT) {
     *siphash64 = sub {
         use integer;
-        _digest(@_)->numify()
+        0+_digest(@_);
     };
 }
 
