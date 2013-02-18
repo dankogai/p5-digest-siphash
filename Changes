@@ -3,6 +3,12 @@
 #
 #
 $Revision: 0.9 $ $Date: 2013/02/18 10:20:52 $
+! lib/Digest/SipHash/PP.pm
+  instead of $mbi->numify(), 0 + $mbi is used to retrive UV.
+  The former does not work reliabily on older perl.
+  Thank you, travis!
+
+0.09 2013/02/18 10:20:52
 + lib/Digest/SipHash/PP.pm t/02-PP.t
   Pure-Perl Implementation!
 ! lib/Digest/SipHash.pm
