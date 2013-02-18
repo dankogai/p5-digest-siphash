@@ -4,7 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.8 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.9 $ =~ /(\d+)/g;
 require XSLoader;
 XSLoader::load( 'Digest::SipHash', $VERSION );
 
@@ -55,7 +55,7 @@ Digest::SipHash - Perl XS interface to the SipHash algorithm
 
 =head1 VERSION
 
-$Id: SipHash.pm,v 0.8 2013/02/17 15:06:02 dankogai Exp dankogai $
+$Id: SipHash.pm,v 0.9 2013/02/18 10:20:52 dankogai Exp dankogai $
 
 =head1 SYNOPSIS
 
@@ -134,16 +134,6 @@ Which actually does the job.  Should not use it directly.
 
 =back
 
-=head1 TODO
-
-=over 2
-
-=item pp_siphash
-
-Pure-Perl implementation -- not yet implemented.
-
-=back
-
 =head1 AUTHOR
 
 Dan Kogai, C<< <dankogai+cpan at gmail.com> >>
@@ -186,6 +176,14 @@ L<http://search.cpan.org/dist/Digest-SipHash/>
 
 L<Hash::Util>, L<https://131002.net/siphash/>
 
+=head1 ACKNOWLEDGEMENTS
+
+B<SipHash: a fast short-input PRF>
+
+by Jean-Philippe Aumasson & Daniel J. Bernstein
+
+L<https://131002.net/siphash/>
+
 =head1 LICENSE AND COPYRIGHT
 
 =head2 csiphash.c
@@ -195,12 +193,6 @@ Copyright (c) 2013  Marek Majkowski
 MIT License L<http://opensource.org/licenses/MIT>
 
 L<https://github.com/majek/csiphash>
-
-=head2 The SipHash Algrorithm
-
-Jean-Philippe Aumasson & Daniel J. Bernstein
-
-L<https://131002.net/siphash/>
 
 =head2 The rest of this module
 
