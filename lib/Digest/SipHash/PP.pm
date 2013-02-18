@@ -84,7 +84,10 @@ sub siphash {
 *siphash32 = \&siphash;
 
 if (USE64BITINT) {
-    *siphash64 = sub { _digest(@_)->numify() };
+    *siphash64 = sub {
+        use integer;
+        _digest(@_)->numify()
+    };
 }
 
 1;
