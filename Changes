@@ -3,6 +3,12 @@
 #
 #
 $Revision: 0.10 $ $Date: 2013/02/18 10:43:55 $
+! csiphash.c
+  le64toh() is now more portable.
+  Thank Thomas Eckardt for reporting 0.10 was incompatble w/ Windows
+  because of that
+
+0.10 2013/02/18 10:43:55
 ! lib/Digest/SipHash/PP.pm
   instead of $mbi->numify(), 0 + $mbi is used to retrive UV.
   The former does not work reliabily on older perl.
