@@ -2,7 +2,7 @@
 #  Revision history for Digest::SipHash
 #
 #
-$Revision: 0.10 $ $Date: 2013/02/18 10:43:55 $
+$Revision: 0.11 $ $Date: 2013/02/18 23:17:48 $
 ! csiphash.c
   le64toh() is now more portable.
   Thank Thomas Eckardt for reporting 0.10 was incompatble w/ Windows
