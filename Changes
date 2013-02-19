@@ -2,7 +2,14 @@
 #  Revision history for Digest::SipHash
 #
 #
+#
 $Revision: 0.11 $ $Date: 2013/02/18 23:17:48 $
+! csiphash.c
+  s/le646oh/le64toh/ ; /* shi6! */
+  (un)?fortunately this bug is very unlikely to surface.
+  Your system must be big-endian AND lacks __builtin_bswap64().
+
+0.11 2013/02/18 23:17:48
 ! csiphash.c
   le64toh() is now more portable.
   Thank Thomas Eckardt for reporting 0.10 was incompatble w/ Windows
