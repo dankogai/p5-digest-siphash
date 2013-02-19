@@ -2,8 +2,8 @@
 #  Revision history for Digest::SipHash
 #
 #
-#
-$Revision: 0.11 $ $Date: 2013/02/18 23:17:48 $
+
+$Revision: 0.12 $ $Date: 2013/02/19 01:38:07 $
 ! csiphash.c
   s/le646oh/le64toh/ ; /* shi6! */
   (un)?fortunately this bug is very unlikely to surface.
