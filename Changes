@@ -2,8 +2,13 @@
 #  Revision history for Digest::SipHash
 #
 #
+$Revision: 0.13 $ $Date: 2013/02/24 05:51:56 $
+! SipHash.xs
+  removed unnneeded le64toh()
+! csiphash.c
+  New one pulled from https://github.com/majek/csiphash
 
-$Revision: 0.12 $ $Date: 2013/02/19 01:38:07 $
+0.12 2013/02/19 01:38:07
 ! csiphash.c
   s/le646oh/le64toh/ ; /* shi6! */
   (un)?fortunately this bug is very unlikely to surface.
