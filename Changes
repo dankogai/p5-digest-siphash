@@ -2,9 +2,12 @@
 #  Revision history for Digest::SipHash
 #
 #
-$Revision: 0.13 $ $Date: 2013/02/24 05:51:56 $
+$Revision: 0.14 $ $Date: 2013/02/26 04:24:09 $
+! lib/Digest/SipHash.pm lib/Digest/SipHash/PP.pm
+  64bit support detection no longer relies on Config.pm.
+  (the logic used in Data::MessagePack::PP)
 ! csiphash.c
-  Fixed macros that was causing OpenBSD builds to fail
+  Fixed macros that was causing OpenBSD builds to fail.
 
 0.13 2013/02/24 05:51:56
 ! SipHash.xs

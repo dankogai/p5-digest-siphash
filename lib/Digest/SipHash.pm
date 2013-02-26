@@ -4,17 +4,16 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.13 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.14 $ =~ /(\d+)/g;
 require XSLoader;
 XSLoader::load( 'Digest::SipHash', $VERSION );
 
 use base 'Exporter';
 our @EXPORT_OK = qw/siphash siphash32/;
 
-use Config;
 use constant {
     BIG_ENDIAN  => ( pack( "L", 1 ) eq pack( "N", 1 ) ),
-    USE64BITINT => $Config{use64bitint},
+    USE64BITINT => eval { pack 'Q', 1 }
 };
 push @EXPORT_OK, 'siphash64' if USE64BITINT;
 our %EXPORT_TAGS = ( all => [@EXPORT_OK] );
@@ -55,7 +54,7 @@ Digest::SipHash - Perl XS interface to the SipHash algorithm
 
 =head1 VERSION
 
-$Id: SipHash.pm,v 0.13 2013/02/24 05:51:19 dankogai Exp $
+$Id: SipHash.pm,v 0.14 2013/02/26 04:24:09 dankogai Exp dankogai $
 
 =head1 SYNOPSIS
 

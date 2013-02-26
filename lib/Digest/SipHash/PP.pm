@@ -3,14 +3,13 @@ use strict;
 use warnings;
 use Math::BigInt;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.10 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.11 $ =~ /(\d+)/g;
 use base 'Exporter';
 our @EXPORT_OK = qw/siphash siphash32/;
 
-use Config;
 use constant {
-    USE64BITINT => $Config{use64bitint},
-    MASK64 => Math::BigInt->new('0xffff_ffff_ffff_ffff'),
+    USE64BITINT => eval { pack 'Q', 1 },
+    MASK64      => Math::BigInt->new('0xffff_ffff_ffff_ffff'),
 };
 
 push @EXPORT_OK, 'siphash64' if USE64BITINT;
@@ -100,7 +99,7 @@ Digest::SipHash::PP - Pure-Perl implementation of the SipHash algorithm
 
 =head1 VERSION
 
-$Id: PP.pm,v 0.10 2013/02/18 10:43:55 dankogai Exp $
+$Id: PP.pm,v 0.11 2013/02/26 04:24:09 dankogai Exp dankogai $
 
 =head1 SYNOPSIS
 
