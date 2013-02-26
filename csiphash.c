@@ -41,25 +41,22 @@
 #elif defined(__APPLE__)
 #  include <libkern/OSByteOrder.h>
 #  define _le64toh(x) OSSwapLittleToHostInt64(x)
-#else
+#endif
 
+#if !defined(_le64toh)
 /* See: http://sourceforge.net/p/predef/wiki/Endianness/ */
-#  if defined(__FreeBSD__) || defined(__NetBSD__)
+#  if defined(__FreeBSD__) || defined(__NetBSD__) ||
+#     defined(__OpenBSD__) || defined(__DragonflyBSD__)
 #    include <sys/endian.h>
-/* See: http://www.openbsd.org/cgi-bin/man.cgi?query=byteorder */
-#  elif defined(__OpenBSD__)
-#    include <sys/endian.h>
-#    define _le64toh(x) letoh64(x)
 #  else
 #    include <endian.h>
-#  endif
-#  if defined(__BYTE_ORDER) && defined(__LITTLE_ENDIAN) && \
-	__BYTE_ORDER == __LITTLE_ENDIAN
-#    define _le64toh(x) ((uint64_t)(x))
-#  else
+# endif
+/* See: http://www.openbsd.org/cgi-bin/man.cgi?query=byteorder */
+#  if defined(__OpenBSD__)
+#    define _le64toh(x) letoh64(x)
+#  else  
 #    define _le64toh(x) le64toh(x)
 #  endif
-
 #endif
 
 

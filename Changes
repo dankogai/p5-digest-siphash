@@ -3,6 +3,10 @@
 #
 #
 $Revision: 0.13 $ $Date: 2013/02/24 05:51:56 $
+! csiphash.c
+  Fixed macros that was causing OpenBSD builds to fail
+
+0.13 2013/02/24 05:51:56
 ! SipHash.xs
   removed unnneeded le64toh()
 ! csiphash.c
