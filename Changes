@@ -2,10 +2,11 @@
 #  Revision history for Digest::SipHash
 #
 #
-$Revision: 0.14 $ $Date: 2013/02/26 04:24:09 $
+$Revision: 0.15 $ $Date: 2013/02/27 04:05:09 $
 ! csiphash.c
   Fixed *BSD* lines that were corrupt
 
+0.14 2013/02/26 04:24:09
 ! lib/Digest/SipHash.pm lib/Digest/SipHash/PP.pm
   64bit support detection no longer relies on Config.pm.
   (the logic used in Data::MessagePack::PP)

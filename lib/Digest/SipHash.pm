@@ -4,7 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.14 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.15 $ =~ /(\d+)/g;
 require XSLoader;
 XSLoader::load( 'Digest::SipHash', $VERSION );
 
@@ -54,7 +54,7 @@ Digest::SipHash - Perl XS interface to the SipHash algorithm
 
 =head1 VERSION
 
-$Id: SipHash.pm,v 0.14 2013/02/26 04:24:09 dankogai Exp dankogai $
+$Id: SipHash.pm,v 0.15 2013/02/27 04:04:27 dankogai Exp $
 
 =head1 SYNOPSIS
 
