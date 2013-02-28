@@ -3,6 +3,11 @@
 #
 #
 $Revision: 0.15 $ $Date: 2013/02/27 04:05:09 $
+! lib/Digest/SipHash.pm lib/Digest/SipHash/PP.pm
+  Addressed: use constant { ... } causing 'Odd number of elements
+  in anonymous hash' errors on some platforms.
+
+0.15 2013/02/27 04:05:09
 ! csiphash.c
   Fixed *BSD* lines that were corrupt
 

@@ -11,10 +11,9 @@ XSLoader::load( 'Digest::SipHash', $VERSION );
 use base 'Exporter';
 our @EXPORT_OK = qw/siphash siphash32/;
 
-use constant {
-    BIG_ENDIAN  => ( pack( "L", 1 ) eq pack( "N", 1 ) ),
-    USE64BITINT => eval { pack 'Q', 1 }
-};
+use constant BIG_ENDIAN => pack( "L", 1 ) eq pack( "N", 1 );
+use constant USE64BITINT => eval { pack 'Q', 1 };
+
 push @EXPORT_OK, 'siphash64' if USE64BITINT;
 our %EXPORT_TAGS = ( all => [@EXPORT_OK] );
 our $DEFAULT_SEED = pack 'C16', map { int( rand(256) ) } ( 0 .. 0xF );

@@ -7,10 +7,8 @@ our $VERSION = sprintf "%d.%02d", q$Revision: 0.11 $ =~ /(\d+)/g;
 use base 'Exporter';
 our @EXPORT_OK = qw/siphash siphash32/;
 
-use constant {
-    USE64BITINT => eval { pack 'Q', 1 },
-    MASK64      => Math::BigInt->new('0xffff_ffff_ffff_ffff'),
-};
+use constant USE64BITINT => eval { pack 'Q', 1 };
+use constant MASK64 => Math::BigInt->new('0xffff_ffff_ffff_ffff');
 
 push @EXPORT_OK, 'siphash64' if USE64BITINT;
 our %EXPORT_TAGS = ( all => [@EXPORT_OK] );
