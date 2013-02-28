@@ -2,7 +2,7 @@
 #  Revision history for Digest::SipHash
 #
 #
-$Revision: 0.15 $ $Date: 2013/02/27 04:05:09 $
+$Revision: 0.16 $ $Date: 2013/02/28 03:18:03 $
 ! lib/Digest/SipHash.pm lib/Digest/SipHash/PP.pm
   Addressed: use constant { ... } causing 'Odd number of elements
   in anonymous hash' errors on some platforms.

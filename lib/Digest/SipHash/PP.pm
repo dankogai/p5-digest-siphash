@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Math::BigInt;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.11 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.12 $ =~ /(\d+)/g;
 use base 'Exporter';
 our @EXPORT_OK = qw/siphash siphash32/;
 
@@ -97,7 +97,7 @@ Digest::SipHash::PP - Pure-Perl implementation of the SipHash algorithm
 
 =head1 VERSION
 
-$Id: PP.pm,v 0.11 2013/02/26 04:24:09 dankogai Exp $
+$Id: PP.pm,v 0.12 2013/02/28 03:18:03 dankogai Exp dankogai $
 
 =head1 SYNOPSIS
 
