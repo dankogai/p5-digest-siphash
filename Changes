@@ -2,7 +2,11 @@
 #  Revision history for Digest::SipHash
 #
 #
-$Revision: 0.16 $ $Date: 2013/02/28 03:18:03 $
+$Revision: 0.17 $ $Date: 2013/03/02 03:15:44 $
+! csiphash.c
+  Reverted _le64toh to that of 0.12 - more portable than <endian.h> detection.
+
+0.16 2013/02/28 03:18:03
 ! lib/Digest/SipHash.pm lib/Digest/SipHash/PP.pm
   Addressed: use constant { ... } causing 'Odd number of elements
   in anonymous hash' errors on some platforms.

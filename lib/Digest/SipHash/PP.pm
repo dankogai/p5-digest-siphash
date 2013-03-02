@@ -97,7 +97,7 @@ Digest::SipHash::PP - Pure-Perl implementation of the SipHash algorithm
 
 =head1 VERSION
 
-$Id: PP.pm,v 0.12 2013/02/28 03:18:03 dankogai Exp dankogai $
+$Id: PP.pm,v 0.12 2013/02/28 03:18:03 dankogai Exp $
 
 =head1 SYNOPSIS
 
