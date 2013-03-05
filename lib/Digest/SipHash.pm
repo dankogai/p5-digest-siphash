@@ -4,7 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%02d", q$Revision: 0.17 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%02d", q$Revision: 0.18 $ =~ /(\d+)/g;
 require XSLoader;
 XSLoader::load( 'Digest::SipHash', $VERSION );
 
@@ -23,14 +23,8 @@ sub siphash {
     my $seed = shift || $DEFAULT_SEED;
     use bytes;
     $seed .= substr( $DEFAULT_SEED, length($seed) ) if length($seed) < 16;
-    my $packed = xs_siphash( $str, $seed );
-    my @u32 = unpack "L2", $packed;
-    if (wantarray) {
-        return BIG_ENDIAN ? reverse @u32 : @u32;
-    }
-    else {
-        return BIG_ENDIAN ? pop @u32 : shift @u32;
-    }
+    my $lohi = _xs_siphash_av( $str, $seed );
+    return wantarray ? @$lohi : $lohi->[0];
 }
 
 *siphash32 = \&siphash;
@@ -41,7 +35,7 @@ if (USE64BITINT) {
         my $seed = shift || $DEFAULT_SEED;
         use bytes;
         $seed .= substr( $DEFAULT_SEED, length($seed) ) if length($seed) < 16;
-        return unpack 'Q', xs_siphash( $str, $seed );
+        return _xs_siphash64( $str, $seed );
     };
 }
 
@@ -53,7 +47,7 @@ Digest::SipHash - Perl XS interface to the SipHash algorithm
 
 =head1 VERSION
 
-$Id: SipHash.pm,v 0.17 2013/03/02 03:15:23 dankogai Exp $
+$Id: SipHash.pm,v 0.18 2013/03/05 06:52:11 dankogai Exp $
 
 =head1 SYNOPSIS
 
@@ -119,18 +113,10 @@ just an alias of C<siphash>.
 
 =head2 siphash64
 
-  my $uint64 = siphash65($str [, $seed]);
+  my $uint64 = siphash64($str [, $seed]);
 
 Calculates the SipHash value of C<$src> with C<$seed> in 64-bit.
 Available on 64-bit platforms only.
-
-=over 2
-
-=item xs_siphash
-
-Which actually does the job.  Should not use it directly.
-
-=back
 
 =head1 AUTHOR
 
