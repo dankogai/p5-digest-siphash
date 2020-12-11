@@ -1,5 +1,5 @@
 /*
- * $Id: SipHash.xs,v 0.6 2016/03/04 13:06:00 dankogai Exp $
+ * $Id: SipHash.xs,v 0.7 2020/12/11 18:06:57 dankogai Exp dankogai $
  */
 #include "EXTERN.h"
 #include "perl.h"
